@@ -26,13 +26,14 @@ void admin4(){
     int pilih;
     do{
       
-        cout << "\n=== MENU MODIFIKASI BUKU ===" << endl;
+        cout << endl << "=== MENU MODIFIKASI BUKU ===" << endl;
         cout << "1. Tambah Buku" << endl;
         cout << "2. Hapus Buku" << endl;
         cout << "3. kembali" << endl;
         cin >> pilih;
         switch (pilih) {
         case 1:
+        {
             buku bbaru;
             bool sudahAda;
 
@@ -61,7 +62,7 @@ void admin4(){
                 }
 
                 if (sudahAda) {
-                    cout << "[Peringatan] ID Buku " << bbaru.id << " sudah ada! Silakan gunakan ID lain.\n";
+                    cout << "[Peringatan] ID Buku " << bbaru.id << " sudah ada! Silakan gunakan ID lain." << endl;
                 }
             }while(sudahAda);
             cin.ignore();
@@ -78,19 +79,60 @@ void admin4(){
             jumlahid++;
             cout << "[Info] Buku berhasil ditambahkan!" << endl;
             break;
-       // case 2:
-            
-         //   break;
-        // default:
-        //     break;
+        }
+       case 2:
+        {
+            int idHapus;
+            bool ditemukan = false;
+
+            cout << "=== Hapus Buku ===" << endl;
+            cout << "Masukkan ID Buku yang ingin dihapus: ";
+            cin >> idHapus;
+
+            ifstream fileMasuk("buku.txt");
+            ofstream fileTemp("temp.txt");
+
+            string tempId, tempJudul, tempPengarang, tempStock;
+
+            while (getline(fileMasuk, tempId, '|') &&
+                getline(fileMasuk, tempJudul, '|') &&
+                getline(fileMasuk, tempPengarang, '|') &&
+                getline(fileMasuk, tempStock)) {
+
+                if (stoi(tempId) == idHapus) {
+                    ditemukan = true;
+                    cout << "[Info] Buku dengan ID " << idHapus << " berhasil dihapus." << endl;
+                } else {
+                    fileTemp << tempId << "|"
+                            << tempJudul << "|"
+                            << tempPengarang << "|"
+                            << tempStock << endl;
+                }
+            }
+
+            fileMasuk.close();
+            fileTemp.close();
+
+            remove("buku.txt");
+            rename("temp.txt", "buku.txt");
+
+            if (!ditemukan) {
+                cout << "Buku dengan ID tersebut tidak ditemukan!" << endl;
+            }
+
+            break;
+        }
+        default:
+            break;
         }
     }while(pilih!=3);
 }
 
+
 void tampilkanMenuadmin() {
     int menu;
     do {
-        cout << "\n=== MENU ADMIN ===" << endl;
+        cout << endl << "=== MENU ADMIN ===" << endl;
         cout << "1. Cari Buku" << endl;
         cout << "2. Tampilkan Daftar Buku" << endl;
         cout << "3. Daftar Peminjam" << endl;
@@ -101,13 +143,13 @@ void tampilkanMenuadmin() {
         
         switch (menu) {
             case 1:
-                cout << "[Info] Fitur Tambah Buku akan dibuat di sini.\n";
+                cout << "[Info] Fitur Tambah Buku akan dibuat di sini." << endl;
                 break;
             case 2:
-                cout << "[Info] Fitur Tampilkan Buku akan dibuat di sini.\n";
+                cout << "[Info] Fitur Tampilkan Buku akan dibuat di sini." << endl;
                 break;
             case 3:
-                cout << "[Info] Fitur Pinjam Buku akan dibuat di sini.\n";
+                cout << "[Info] Fitur Pinjam Buku akan dibuat di sini." << endl;
                 break;
             case 4:
                 admin4();
@@ -116,13 +158,13 @@ void tampilkanMenuadmin() {
                 cout << "Keluar dari program ADMIN!!" << endl;
                 break;
             default:
-                cout << "Pilihan tidak valid! Silakan coba lagi.\n";
+                cout << "Pilihan tidak valid! Silakan coba lagi." << endl;
         }
     } while(menu!=5); 
 }
 
 void tampilkanMenu() {
-    cout << "\n=== MENU UTAMA PERPUSTAKAAN ===" << endl;
+    cout << endl << "=== MENU UTAMA PERPUSTAKAAN ===" << endl;
     cout << "1. cari buku" << endl;
     cout << "2. Tampilkan Daftar Buku" << endl;
     cout << "3. Pinjam Buku" << endl;
@@ -145,19 +187,19 @@ int main() {
         
         switch (pilihan) {
             case 1:
-                cout << "[Info] Fitur Tambah Buku akan dibuat di sini.\n";
+                cout << "[Info] Fitur Tambah Buku akan dibuat di sini." << endl;
                 break;
             case 2:
-                cout << "[Info] Fitur Tampilkan Buku akan dibuat di sini.\n";
+                cout << "[Info] Fitur Tampilkan Buku akan dibuat di sini." << endl;
                 break;
             case 3:
-                cout << "[Info] Fitur Pinjam Buku akan dibuat di sini.\n";
+                cout << "[Info] Fitur Pinjam Buku akan dibuat di sini." << endl;
                 break;
             case 4:
                 if (!login()) {
                     cout << "Login gagal! Username atau password salah." << endl;
                 } else {
-                    cout << "\nLogin sukses! Selamat datang di sistem." << endl;
+                    cout << endl << "Login sukses! Selamat datang di sistem." << endl;
                     tampilkanMenuadmin();
                 };
                 break;
@@ -165,7 +207,7 @@ int main() {
                 cout << "Keluar dari program. Terima kasih!" << endl;
                 break;
             default:
-                cout << "Pilihan tidak valid! Silakan coba lagi.\n";
+                cout << "Pilihan tidak valid! Silakan coba lagi." << endl;
         }
     } while (pilihan != 5);
     
