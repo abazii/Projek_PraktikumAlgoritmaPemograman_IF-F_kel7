@@ -2,6 +2,14 @@
 #include <fstream>
 using namespace std;
 
+struct buku
+{
+    string judul, pengarang;
+    int stock, id;
+};
+
+int jumlahid=0;
+
 bool login() {
     string username, password;
     cout << "===  LOGIN SISTEM PERPUSTAKAAN ===" << endl;
@@ -12,6 +20,71 @@ bool login() {
         return true;
     }
     return false;
+}
+
+void admin4(){
+    int pilih;
+    do{
+      
+        cout << "\n=== MENU MODIFIKASI BUKU ===" << endl;
+        cout << "1. Tambah Buku" << endl;
+        cout << "2. Hapus Buku" << endl;
+        cout << "3. kembali" << endl;
+        cin >> pilih;
+        switch (pilih) {
+        case 1:
+            buku bbaru;
+            bool sudahAda;
+
+            do {
+                sudahAda = false;
+                cout << "=== Tambah Buku ===" << endl;
+                cout << "Masukan ID Buku: ";
+                cin >> bbaru.id;
+
+                ifstream fileCek("buku.txt");
+                
+                if (fileCek.is_open()) {
+                    string tempId, tempJudul, tempPengarang, tempStock;
+    
+                    while (getline(fileCek, tempId, '|') && 
+                           getline(fileCek, tempJudul, '|') && 
+                           getline(fileCek, tempPengarang, '|') && 
+                           getline(fileCek, tempStock)) {
+                        
+                        if (stoi(tempId) == bbaru.id) {
+                            sudahAda = true;
+                            break;
+                        }
+                    }
+                    fileCek.close();
+                }
+
+                if (sudahAda) {
+                    cout << "[Peringatan] ID Buku " << bbaru.id << " sudah ada! Silakan gunakan ID lain.\n";
+                }
+            }while(sudahAda);
+            cin.ignore();
+            cout << "Masukan Judul buku     : ";
+            getline(cin, bbaru.judul);
+            cout << "Masukan Pengarang buku : ";
+            getline(cin, bbaru.pengarang);
+            cout << "Jumlah buku            : ";
+            cin >> bbaru.stock;
+
+            ofstream filebaru("buku.txt", ios::app);
+            filebaru << bbaru.id << "|" << bbaru.judul << "|" << bbaru.pengarang << "|" << bbaru.stock << endl;
+            filebaru.close(); 
+            jumlahid++;
+            cout << "[Info] Buku berhasil ditambahkan!" << endl;
+            break;
+       // case 2:
+            
+         //   break;
+        // default:
+        //     break;
+        }
+    }while(pilih!=3);
 }
 
 void tampilkanMenuadmin() {
@@ -37,9 +110,10 @@ void tampilkanMenuadmin() {
                 cout << "[Info] Fitur Pinjam Buku akan dibuat di sini.\n";
                 break;
             case 4:
-                cout << "[Info] Fitur Pinjam Buku akan dibuat di sini.\n";
+                admin4();
+                break;
             case 5:
-                cout << "Keluar dari program ADMIN. Terima kasih!" << endl;
+                cout << "Keluar dari program ADMIN!!" << endl;
                 break;
             default:
                 cout << "Pilihan tidak valid! Silakan coba lagi.\n";
@@ -55,6 +129,10 @@ void tampilkanMenu() {
     cout << "4. login admin" << endl;
     cout << "5. Keluar" << endl;
     cout << "Pilih menu (1-4): ";
+}
+
+void caribuku(){
+
 }
 
 int main() {
@@ -82,6 +160,7 @@ int main() {
                     cout << "\nLogin sukses! Selamat datang di sistem." << endl;
                     tampilkanMenuadmin();
                 };
+                break;
             case 5:
                 cout << "Keluar dari program. Terima kasih!" << endl;
                 break;
