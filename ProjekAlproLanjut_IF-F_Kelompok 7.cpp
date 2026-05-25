@@ -8,8 +8,6 @@ struct buku
     int stock, id;
 };
 
-int jumlahid=0;
-
 bool login() {
     string username, password;
     cout << "===  LOGIN SISTEM PERPUSTAKAAN ===" << endl;
@@ -20,6 +18,22 @@ bool login() {
         return true;
     }
     return false;
+}
+
+int cariBukuRekursif(buku data[], int awal, int akhir, int idCari) {
+    if (awal > akhir) {
+        return -1;
+    }
+    
+    int tengah = awal + (akhir - awal) / 2;
+    
+    if (data[tengah].id == idCari) {
+        return tengah;
+    }
+    if (data[tengah].id > idCari) {
+        return cariBukuRekursif(data, awal, tengah - 1, idCari);
+    }
+    return cariBukuRekursif(data, tengah + 1, akhir, idCari);
 }
 
 void tambahBuku(){
@@ -63,8 +77,7 @@ void tambahBuku(){
 
             ofstream filebaru("buku.txt", ios::app);
             filebaru << bbaru.id << "|" << bbaru.judul << "|" << bbaru.pengarang << "|" << bbaru.stock << endl;
-            filebaru.close(); 
-            jumlahid++;
+            filebaru.close();
             cout << "[Info] Buku berhasil ditambahkan!" << endl;
 }
 
@@ -104,6 +117,66 @@ void hapusBuku(){
             if (!ditemukan) {
                 cout << "Buku dengan ID tersebut tidak ditemukan!" << endl;
             }
+}
+
+void editBuku() {
+    buku data[100];
+    int jumlah = 0;
+    ifstream file("buku.txt");
+    
+    if (!file.is_open()) {
+        cout << "File buku tidak ditemukan!" << endl;
+        return;
+    }
+
+    string tempId, tempJudul, tempPengarang, tempStock;
+    while (getline(file, tempId, '|') &&
+           getline(file, tempJudul, '|') &&
+           getline(file, tempPengarang, '|') &&
+           getline(file, tempStock)) {
+        data[jumlah].id = stoi(tempId);
+        data[jumlah].judul = tempJudul;
+        data[jumlah].pengarang = tempPengarang;
+        data[jumlah].stock = stoi(tempStock);
+        jumlah++;
+    }
+    file.close();
+    
+    for (int i = 0; i < jumlah - 1; i++) {
+        for (int j = 0; j < jumlah - i - 1; j++) {
+            if (data[j].id > data[j + 1].id) {
+                buku temp = data[j];
+                data[j] = data[j + 1];
+                data[j + 1] = temp;
+            }
+        }
+    }
+
+    int idCari;
+    cout << "=== Edit Buku ===" << endl;
+    cout << "masukkan id buku : ";
+    cin >> idCari;
+    
+    int indeks = cariBukuRekursif(data, 0, jumlah - 1, idCari);
+
+    if (indeks == -1) {
+        cout << "[Peringatan] ID Buku tidak ditemukan!" << endl;
+        return;
+    }
+
+    cout << endl << endl;
+    cout << "Masukkan id baru : "; cin >> data[indeks].id;
+    cin.ignore();
+    cout << "Nama buku baru   : "; getline(cin, data[indeks].judul);
+    cout << "Pengarang baru   : "; getline(cin, data[indeks].pengarang);
+    cout << "Stok baru        : "; cin >> data[indeks].stock;
+
+    ofstream fileTulis("buku.txt");
+    for (int i = 0; i < jumlah; i++) {
+        fileTulis << data[i].id << "|" << data[i].judul << "|" << data[i].pengarang << "|" << data[i].stock << endl;
+    }
+    fileTulis.close();
+    cout << "[Info] Buku berhasil diperbarui!" << endl;
 }
 
 void tampilkanBuku(){
@@ -230,8 +303,166 @@ void cariBuku(){
 }
 
 void daftarPeminjam(){
+    ifstream file("peminjam.txt");
+    if (!file.is_open()) {
+        cout << "Belum ada data peminjaman!" << endl;
+        return;
+    }
 
+    string tempNama, tempIdBuku, tempJudul;
+    cout << endl;
+    cout << "==================================================" << endl;
+    cout << "              DAFTAR PEMINJAM BUKU               " << endl;
+    cout << "==================================================" << endl;
 
+    bool adaData = false;
+    while (getline(file, tempNama, '|') &&
+           getline(file, tempIdBuku, '|') &&
+           getline(file, tempJudul)) {
+        adaData = true;
+        cout << "Nama Peminjam : " << tempNama << endl;
+        cout << "ID Buku       : " << tempIdBuku << endl;
+        cout << "Judul Buku    : " << tempJudul << endl;
+        cout << "--------------------------------------------------" << endl;
+    }
+    file.close();
+
+    if (!adaData) {
+        cout << "Belum ada data peminjaman!" << endl;
+    }
+}
+
+void pinjamBuku() {
+    buku data[100];
+    int jumlah = 0;
+    ifstream file("buku.txt");
+    
+    if (!file.is_open()) {
+        cout << "File data buku tidak ditemukan!" << endl;
+        return;
+    }
+
+    string tempId, tempJudul, tempPengarang, tempStock;
+    while (getline(file, tempId, '|') &&
+           getline(file, tempJudul, '|') &&
+           getline(file, tempPengarang, '|') &&
+           getline(file, tempStock)) {
+        data[jumlah].id = stoi(tempId);
+        data[jumlah].judul = tempJudul;
+        data[jumlah].pengarang = tempPengarang;
+        data[jumlah].stock = stoi(tempStock);
+        jumlah++;
+    }
+    file.close();
+    
+    for (int i = 0; i < jumlah - 1; i++) {
+        for (int j = 0; j < jumlah - i - 1; j++) {
+            if (data[j].id > data[j + 1].id) {
+                buku temp = data[j];
+                data[j] = data[j + 1];
+                data[j + 1] = temp;
+            }
+        }
+    }
+
+    int idCari;
+    string namaPeminjam;
+    cout << "=== PINJAM BUKU ===" << endl;
+    cout << "Masukkan ID Buku yang ingin dipinjam: "; cin >> idCari;
+
+    int indeks = cariBukuRekursif(data, 0, jumlah - 1, idCari);
+
+    if (indeks == -1) {
+        cout << "[Peringatan] Buku dengan ID tersebut tidak ditemukan!" << endl;
+        return;
+    }
+
+    if (data[indeks].stock <= 0) {
+        cout << "[Peringatan] Stok buku habis, tidak bisa dipinjam!" << endl;
+        return;
+    }
+
+    cin.ignore();
+    cout << "Masukkan Nama Anda: "; getline(cin, namaPeminjam);
+
+    data[indeks].stock--;
+
+    ofstream fileTulis("buku.txt");
+    for (int i = 0; i < jumlah; i++) {
+        fileTulis << data[i].id << "|" << data[i].judul << "|" << data[i].pengarang << "|" << data[i].stock << endl;
+    }
+    fileTulis.close();
+
+    ofstream filePinjam("peminjam.txt", ios::app);
+    filePinjam << namaPeminjam << "|" << data[indeks].id << "|" << data[indeks].judul << endl;
+    filePinjam.close();
+
+    cout << "[Sukses] Buku berhasil dipinjam oleh " << namaPeminjam << "!" << endl;
+}
+
+void kembalikanBuku() {
+    string namaCari;
+    int idCari;
+    cout << "=== KEMBALIKAN BUKU ===" << endl;
+    cin.ignore();
+    cout << "Masukkan Nama Anda: "; getline(cin, namaCari);
+    cout << "Masukkan ID Buku yang dikembalikan: "; cin >> idCari;
+
+    ifstream filePinjam("peminjam.txt");
+    ofstream fileTemp("temp_pinjam.txt");
+    string tempNama, tempIdBuku, tempJudul;
+    bool ditemukan = false;
+
+    if (filePinjam.is_open()) {
+        while (getline(filePinjam, tempNama, '|') &&
+               getline(filePinjam, tempIdBuku, '|') &&
+               getline(filePinjam, tempJudul)) {
+            
+            if (tempNama == namaCari && stoi(tempIdBuku) == idCari && !ditemukan) {
+                ditemukan = true;
+            } else {
+                fileTemp << tempNama << "|" << tempIdBuku << "|" << tempJudul << endl;
+            }
+        }
+        filePinjam.close();
+        fileTemp.close();
+        remove("peminjam.txt");
+        rename("temp_pinjam.txt", "peminjam.txt");
+    }
+
+    if (!ditemukan) {
+        cout << "[Gagal] Data peminjaman tidak ditemukan! Periksa kembali Nama atau ID Buku." << endl;
+        return;
+    }
+
+    buku data[100];
+    int jumlah = 0;
+    ifstream file("buku.txt");
+    string tempId, tempJudulBuku, tempPengarang, tempStock;
+    
+    while (getline(file, tempId, '|') &&
+           getline(file, tempJudulBuku, '|') &&
+           getline(file, tempPengarang, '|') &&
+           getline(file, tempStock)) {
+        data[jumlah].id = stoi(tempId);
+        data[jumlah].judul = tempJudulBuku;
+        data[jumlah].pengarang = tempPengarang;
+        data[jumlah].stock = stoi(tempStock);
+        
+        if (data[jumlah].id == idCari) {
+            data[jumlah].stock++;
+        }
+        jumlah++;
+    }
+    file.close();
+
+    ofstream fileTulis("buku.txt");
+    for (int i = 0; i < jumlah; i++) {
+        fileTulis << data[i].id << "|" << data[i].judul << "|" << data[i].pengarang << "|" << data[i].stock << endl;
+    }
+    fileTulis.close();
+
+    cout << "[Sukses] Buku berhasil dikembalikan!" << endl;
 }
 
 void tampilkanMenuadmin() {
@@ -255,7 +486,7 @@ void tampilkanMenuadmin() {
                 hapusBuku();
                 break;
             case 3:
-                cout << "Edit buku" << endl;
+                editBuku();
                 break;
             case 4:
                 tampilkanBuku();
@@ -264,7 +495,7 @@ void tampilkanMenuadmin() {
                 cariBuku();
                 break;
             case 6:
-                
+                daftarPeminjam();
                 break;
             case 7:
                 cout << "Anda telah keluar dari admin!" << endl;
@@ -306,10 +537,10 @@ int main() {
                 }
                 break;
             case 3:
-                cout << " Fitur Pinjam" << endl;
+                pinjamBuku();
                 break;
             case 4:
-                cout << " FItur kembali" << endl;
+                kembalikanBuku();
                 break;
             case 5:
                 if (!login()) {
@@ -320,7 +551,7 @@ int main() {
                 };
                 break;
             case 6:
-                cout << "Keluar dari program. Terima kasih!" << endl;
+                cout << "Keluar dari program. Terima kasih!" << endl; 
                 break;
             default:
                 cout << "Pilihan tidak valid! Silakan coba lagi." << endl;
