@@ -67,8 +67,8 @@ void tambahBuku(){
                     cout << "[Peringatan] ID Buku " << bbaru.id << " sudah ada! Silakan gunakan ID lain." << endl;
                 }
             }while(sudahAda);
-            cin.ignore();
             cout << "Masukan Judul buku     : ";
+            cin.ignore();
             getline(cin, bbaru.judul);
             cout << "Masukan Pengarang buku : ";
             getline(cin, bbaru.pengarang);
@@ -242,6 +242,16 @@ void tampilkanBuku(){
     }
 }
 
+void tulisbuku (buku data[], int i){
+    cout << "Buku ditemukan!" << endl;
+    cout << "-------------------------" << endl;
+    cout << "ID Buku    : " << data[i].id << endl;
+    cout << "Judul      : " << data[i].judul << endl;
+    cout << "Pengarang  : " << data[i].pengarang << endl;
+    cout << "Stok       : " << data[i].stock << endl;
+    cout << "-------------------------" << endl;
+}
+
 void cariBuku(){
 
     buku data[100];
@@ -274,27 +284,51 @@ void cariBuku(){
 
     string cari;
     bool ditemukan = false;
+    int pil;
 
     cout << "=== CARI BUKU ===" << endl;
-    cout << "Masukkan judul buku: ";
-    getline(cin, cari);
+    cout << "1. Berdasar ID Buku" << endl;
+    cout << "2. Berdasar Judul Buku" << endl;
+    cout << "3. Berdasar Pengarang Buku" << endl;
+    cout << "4. Keluar" << endl;
+    cout << "pilihan : ";
+    cin >> pil;
+    cin.ignore();
 
-    cout << endl;
-
-    for (int i = 0; i < jumlah; i++) {
-
-        if (data[i].judul == cari) {
-
-            ditemukan = true;
-
-            cout << "Buku ditemukan!" << endl;
-            cout << "-------------------------" << endl;
-            cout << "ID Buku    : " << data[i].id << endl;
-            cout << "Judul      : " << data[i].judul << endl;
-            cout << "Pengarang  : " << data[i].pengarang << endl;
-            cout << "Stok       : " << data[i].stock << endl;
-            cout << "-------------------------" << endl;
+    if (pil==1){
+        int cari;
+        cout << "Masukan ID Buku : ";
+        cin >> cari;
+        for (int i = 0; i < jumlah; i++) {
+            if (data[i].id == cari) {
+                ditemukan = true;
+            tulisbuku (data, i);
+            }
         }
+    } else if (pil==2){
+        string cari;
+        cin.clear();
+        cout << "Masukan Judul Buku : ";
+        getline(cin, cari);
+        for (int i = 0; i < jumlah; i++) {
+            if (data[i].judul == cari) {
+                ditemukan = true;
+            tulisbuku (data, i);
+            }
+        }
+    } else if (pil==3){
+        string cari;
+        cin.clear();
+        cout << "Masukan Pengarang Buku : ";
+        getline(cin, cari);
+        for (int i = 0; i < jumlah; i++) {
+            if (data[i].pengarang == cari) {
+                ditemukan = true;
+            tulisbuku (data, i);
+            }
+        }
+    } else {
+        cout << "pilihan tidak valid";
     }
 
     if (!ditemukan) {
