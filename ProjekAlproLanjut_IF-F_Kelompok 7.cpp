@@ -5,6 +5,7 @@ using namespace std;
 struct buku
 {
     string judul, pengarang;
+	string info[2][2];
     int stock, id;
 };
 
@@ -40,7 +41,8 @@ void tambahBuku(){
     buku bbaru;
     bool sudahAda;
     string tempId, tempJudul, tempPengarang, tempStock;
-
+	string tempKategori, tempRak, tempTahun, tempPenerbit;
+	
     do {
         sudahAda = false;
         cout << "=== Tambah Buku ===" << endl;
@@ -50,10 +52,14 @@ void tambahBuku(){
         ifstream fileCek("buku.txt");
                 
         if (fileCek.is_open()) {
-            while (getline(fileCek, tempId, '|') && 
-                   getline(fileCek, tempJudul, '|') && 
-                   getline(fileCek, tempPengarang, '|') && 
-                   getline(fileCek, tempStock)) {
+            while (getline(fileCek, tempId, '|') &&
+				getline(fileCek, tempJudul, '|') &&
+				getline(fileCek, tempPengarang, '|') &&
+				getline(fileCek, tempStock, '|') &&
+				getline(fileCek, tempKategori, '|') &&
+				getline(fileCek, tempRak, '|') &&
+				getline(fileCek, tempTahun, '|') &&
+				getline(fileCek, tempPenerbit)) {
                         
                         if (stoi(tempId) == bbaru.id) {
                             sudahAda = true;
@@ -72,11 +78,26 @@ void tambahBuku(){
             getline(cin, bbaru.judul);
             cout << "Masukan Pengarang buku : ";
             getline(cin, bbaru.pengarang);
+			cout << "Masukan kategori buku  : ";
+			getline(cin, bbaru.info[0][0]);
+			cout << "Masukan rak buku       : ";
+			getline(cin, bbaru.info[0][1]);
+			cout << "Masukan tahun terbit  : ";
+			getline(cin, bbaru.info[1][0]);
+			cout << "Masukan penerbit buku : ";
+			getline(cin, bbaru.info[1][1]);
             cout << "Jumlah buku            : ";
             cin >> bbaru.stock;
 
             ofstream filebaru("buku.txt", ios::app);
-            filebaru << bbaru.id << "|" << bbaru.judul << "|" << bbaru.pengarang << "|" << bbaru.stock << endl;
+            filebaru << bbaru.id << "|"
+					<< bbaru.judul << "|"
+					<< bbaru.pengarang << "|"
+					<< bbaru.stock << "|"
+					<< bbaru.info[0][0] << "|"
+					<< bbaru.info[0][1] << "|"
+					<< bbaru.info[1][0] << "|"
+					<< bbaru.info[1][1] << endl;
             filebaru.close();
             cout << "[Info] Buku berhasil ditambahkan!" << endl;
 }
@@ -85,7 +106,8 @@ void hapusBuku(){
     int idHapus;
     bool ditemukan = false;
     string tempId, tempJudul, tempPengarang, tempStock;
-
+	string tempKategori, tempRak, tempTahun, tempPenerbit;
+	
     cout << "=== Hapus Buku ===" << endl;
     cout << "Masukkan ID Buku yang ingin dihapus: ";
     cin >> idHapus;
@@ -93,18 +115,26 @@ void hapusBuku(){
     ifstream fileMasuk("buku.txt");
     ofstream fileTemp("temp.txt");
         while (getline(fileMasuk, tempId, '|') &&
-               getline(fileMasuk, tempJudul, '|') &&
-               getline(fileMasuk, tempPengarang, '|') &&
-               getline(fileMasuk, tempStock)) {
+			getline(fileMasuk, tempJudul, '|') &&
+			getline(fileMasuk, tempPengarang, '|') &&
+			getline(fileMasuk, tempStock, '|') &&
+			getline(fileMasuk, tempKategori, '|') &&
+			getline(fileMasuk, tempRak, '|') &&
+			getline(fileMasuk, tempTahun, '|') &&
+			getline(fileMasuk, tempPenerbit)) {
 
                if (stoi(tempId) == idHapus) {
                     ditemukan = true;
                     cout << "[Info] Buku dengan ID " << idHapus << " berhasil dihapus." << endl;
                 } else {
                     fileTemp << tempId << "|"
-                            << tempJudul << "|"
-                            << tempPengarang << "|"
-                            << tempStock << endl;
+							<< tempJudul << "|"
+							<< tempPengarang << "|"
+							<< tempStock << "|"
+							<< tempKategori << "|"
+							<< tempRak << "|"
+							<< tempTahun << "|"
+							<< tempPenerbit << "|" << endl;
                 }
             }
 
@@ -130,16 +160,29 @@ void editBuku() {
     }
 
     string tempId, tempJudul, tempPengarang, tempStock;
-    while (getline(file, tempId, '|') &&
-           getline(file, tempJudul, '|') &&
-           getline(file, tempPengarang, '|') &&
-           getline(file, tempStock)) {
-        data[jumlah].id = stoi(tempId);
-        data[jumlah].judul = tempJudul;
-        data[jumlah].pengarang = tempPengarang;
-        data[jumlah].stock = stoi(tempStock);
-        jumlah++;
-    }
+	string tempKategori, tempRak, tempTahun, tempPenerbit;
+
+	while (getline(file, tempId, '|') &&
+       getline(file, tempJudul, '|') &&
+       getline(file, tempPengarang, '|') &&
+       getline(file, tempStock, '|') &&
+       getline(file, tempKategori, '|') &&
+       getline(file, tempRak, '|') &&
+       getline(file, tempTahun, '|') &&
+       getline(file, tempPenerbit)) {
+
+		data[jumlah].id = stoi(tempId);
+		data[jumlah].judul = tempJudul;
+		data[jumlah].pengarang = tempPengarang;
+		data[jumlah].stock = stoi(tempStock);
+
+		data[jumlah].info[0][0] = tempKategori;
+		data[jumlah].info[0][1] = tempRak;
+		data[jumlah].info[1][0] = tempTahun;
+		data[jumlah].info[1][1] = tempPenerbit;
+
+		jumlah++;
+	}
     file.close();
     
     for (int i = 0; i < jumlah - 1; i++) {
@@ -170,10 +213,21 @@ void editBuku() {
     cout << "Nama buku baru   : "; getline(cin, data[indeks].judul);
     cout << "Pengarang baru   : "; getline(cin, data[indeks].pengarang);
     cout << "Stok baru        : "; cin >> data[indeks].stock;
-
+	cin.ignore();
+	cout << "Kategori baru    : "; getline(cin, data[indeks].info[0][0]);
+	cout << "Rak buku baru    : "; getline(cin, data[indeks].info[0][1]);
+	cout << "Tahun terbit baru: "; getline(cin, data[indeks].info[1][0]);
+	cout << "Penerbit baru    : "; getline(cin, data[indeks].info[1][1]);
     ofstream fileTulis("buku.txt");
     for (int i = 0; i < jumlah; i++) {
-        fileTulis << data[i].id << "|" << data[i].judul << "|" << data[i].pengarang << "|" << data[i].stock << endl;
+        fileTulis << data[i].id << "|"
+				  << data[i].judul << "|"
+				  << data[i].pengarang << "|"
+				  << data[i].stock << "|"
+				  << data[i].info[0][0] << "|"
+				  << data[i].info[0][1] << "|"
+				  << data[i].info[1][0] << "|"
+				  << data[i].info[1][1] << endl;
     }
     fileTulis.close();
     cout << "[Info] Buku berhasil diperbarui!" << endl;
@@ -192,19 +246,28 @@ void tampilkanBuku(){
     }
 
     string tempId, tempJudul, tempPengarang, tempStock;
+	string tempKategori, tempRak,tempTahun, tempPenerbit;
 
-    while (getline(file, tempId, '|') &&
-           getline(file, tempJudul, '|') &&
-           getline(file, tempPengarang, '|') &&
-           getline(file, tempStock)) {
+	while (getline(file, tempId, '|') &&
+       getline(file, tempJudul, '|') &&
+       getline(file, tempPengarang, '|') &&
+       getline(file, tempStock, '|') &&
+       getline(file, tempKategori, '|') &&
+       getline(file, tempRak, '|') &&
+       getline(file, tempTahun, '|') &&
+       getline(file, tempPenerbit)) {
 
-        data[jumlah].id = stoi(tempId);
-        data[jumlah].judul = tempJudul;
-        data[jumlah].pengarang = tempPengarang;
-        data[jumlah].stock = stoi(tempStock);
+		data[jumlah].id = stoi(tempId);
+		data[jumlah].judul = tempJudul;
+		data[jumlah].pengarang = tempPengarang;
+		data[jumlah].stock = stoi(tempStock);
 
-        jumlah++;
-    }
+		data[jumlah].info[0][0] = tempKategori;
+		data[jumlah].info[0][1] = tempRak;
+		data[jumlah].info[1][0] = tempTahun;
+		data[jumlah].info[1][1] = tempPenerbit;
+		jumlah++;
+	}
 
     file.close();
 
@@ -220,6 +283,7 @@ void tampilkanBuku(){
             }
         }
     }
+	buku *ptr = data;
 
     cout << endl;
     cout << "==================================================" << endl;
@@ -233,10 +297,14 @@ void tampilkanBuku(){
 
         for (int i = 0; i < jumlah; i++) {
 
-            cout << "ID Buku    : " << data[i].id << endl;
-            cout << "Judul      : " << data[i].judul << endl;
-            cout << "Pengarang  : " << data[i].pengarang << endl;
-            cout << "Stok       : " << data[i].stock << endl;
+            cout << "ID Buku      : " << (ptr + i)->id << endl;
+			cout << "Judul        : " << (ptr + i)->judul << endl;
+			cout << "Pengarang    : " << (ptr + i)->pengarang << endl;
+			cout << "Stok         : " << (ptr + i)->stock << endl;
+			cout << "Kategori     : " << (ptr + i)->info[0][0] << endl;
+			cout << "Rak Buku     : " << (ptr + i)->info[0][1] << endl;
+			cout << "Tahun Terbit : " << (ptr + i)->info[1][0] << endl;
+			cout << "Penerbit     : " << (ptr + i)->info[1][1] << endl;
             cout << "--------------------------------------------------" << endl;
         }
     }
@@ -249,6 +317,10 @@ void tulisbuku (buku data[], int i){
     cout << "Judul      : " << data[i].judul << endl;
     cout << "Pengarang  : " << data[i].pengarang << endl;
     cout << "Stok       : " << data[i].stock << endl;
+	cout << "Kategori   : " << data[i].info[0][0] << endl;
+	cout << "Rak Buku   : " << data[i].info[0][1] << endl;
+	cout << "Tahun Terbit : " << data[i].info[1][0] << endl;
+	cout << "Penerbit     : " << data[i].info[1][1] << endl;
     cout << "-------------------------" << endl;
 }
 
@@ -257,6 +329,7 @@ void cariBuku(){
     buku data[100];
     int jumlah = 0;
     string tempId, tempJudul, tempPengarang, tempStock;
+	string tempKategori, tempRak, tempTahun, tempPenerbit;
 
     ifstream file("buku.txt");
 
@@ -265,22 +338,29 @@ void cariBuku(){
         return;
     }
 
-    while (getline(file, tempId, '|') &&
-           getline(file, tempJudul, '|') &&
-           getline(file, tempPengarang, '|') &&
-           getline(file, tempStock)) {
+	while (getline(file, tempId, '|') &&
+       getline(file, tempJudul, '|') &&
+       getline(file, tempPengarang, '|') &&
+       getline(file, tempStock, '|') &&
+       getline(file, tempKategori, '|') &&
+       getline(file, tempRak, '|') &&
+       getline(file, tempTahun, '|') &&
+       getline(file, tempPenerbit)) {
 
-        data[jumlah].id = stoi(tempId);
-        data[jumlah].judul = tempJudul;
-        data[jumlah].pengarang = tempPengarang;
-        data[jumlah].stock = stoi(tempStock);
+		data[jumlah].id = stoi(tempId);
+		data[jumlah].judul = tempJudul;
+		data[jumlah].pengarang = tempPengarang;
+		data[jumlah].stock = stoi(tempStock);
 
-        jumlah++;
-    }
+		data[jumlah].info[0][0] = tempKategori;
+		data[jumlah].info[0][1] = tempRak;
+		data[jumlah].info[1][0] = tempTahun;
+		data[jumlah].info[1][1] = tempPenerbit;
+		jumlah++;
+	}
 
     file.close();
 
-    cin.ignore();
 
     string cari;
     bool ditemukan = false;
@@ -377,16 +457,28 @@ void pinjamBuku() {
     }
 
     string tempId, tempJudul, tempPengarang, tempStock;
-    while (getline(file, tempId, '|') &&
-           getline(file, tempJudul, '|') &&
-           getline(file, tempPengarang, '|') &&
-           getline(file, tempStock)) {
-        data[jumlah].id = stoi(tempId);
-        data[jumlah].judul = tempJudul;
-        data[jumlah].pengarang = tempPengarang;
-        data[jumlah].stock = stoi(tempStock);
-        jumlah++;
-    }
+	string tempKategori, tempRak, tempTahun, tempPenerbit;
+
+	while (getline(file, tempId, '|') &&
+       getline(file, tempJudul, '|') &&
+       getline(file, tempPengarang, '|') &&
+       getline(file, tempStock, '|') &&
+       getline(file, tempKategori, '|') &&
+       getline(file, tempRak, '|') &&
+       getline(file, tempTahun, '|') &&
+       getline(file, tempPenerbit)) {
+
+		data[jumlah].id = stoi(tempId);
+		data[jumlah].judul = tempJudul;
+		data[jumlah].pengarang = tempPengarang;
+		data[jumlah].stock = stoi(tempStock);
+
+		data[jumlah].info[0][0] = tempKategori;
+		data[jumlah].info[0][1] = tempRak;
+		data[jumlah].info[1][0] = tempTahun;
+		data[jumlah].info[1][1] = tempPenerbit;
+		jumlah++;
+	}
     file.close();
     
     for (int i = 0; i < jumlah - 1; i++) {
@@ -423,7 +515,14 @@ void pinjamBuku() {
 
     ofstream fileTulis("buku.txt");
     for (int i = 0; i < jumlah; i++) {
-        fileTulis << data[i].id << "|" << data[i].judul << "|" << data[i].pengarang << "|" << data[i].stock << endl;
+        fileTulis << data[i].id << "|"
+				  << data[i].judul << "|"
+				  << data[i].pengarang << "|"
+				  << data[i].stock << "|"
+				  << data[i].info[0][0] << "|"
+				  << data[i].info[0][1] << "|"
+				  << data[i].info[1][0] << "|"
+				  << data[i].info[1][1] << endl;
     }
     fileTulis.close();
 
@@ -473,26 +572,45 @@ void kembalikanBuku() {
     int jumlah = 0;
     ifstream file("buku.txt");
     string tempId, tempJudulBuku, tempPengarang, tempStock;
-    
-    while (getline(file, tempId, '|') &&
-           getline(file, tempJudulBuku, '|') &&
-           getline(file, tempPengarang, '|') &&
-           getline(file, tempStock)) {
-        data[jumlah].id = stoi(tempId);
-        data[jumlah].judul = tempJudulBuku;
-        data[jumlah].pengarang = tempPengarang;
-        data[jumlah].stock = stoi(tempStock);
-        
-        if (data[jumlah].id == idCari) {
-            data[jumlah].stock++;
-        }
-        jumlah++;
-    }
+    string tempKategori, tempRak, tempTahun, tempPenerbit;
+
+	while (getline(file, tempId, '|') &&
+       getline(file, tempJudulBuku, '|') &&
+       getline(file, tempPengarang, '|') &&
+       getline(file, tempStock, '|') &&
+       getline(file, tempKategori, '|') &&
+       getline(file, tempRak, '|') &&
+       getline(file, tempTahun, '|') &&
+       getline(file, tempPenerbit)) {
+
+		data[jumlah].id = stoi(tempId);
+		data[jumlah].judul = tempJudulBuku;
+		data[jumlah].pengarang = tempPengarang;
+		data[jumlah].stock = stoi(tempStock);
+
+		if (data[jumlah].id == idCari) {
+			data[jumlah].stock++;
+		}
+
+		data[jumlah].info[0][0] = tempKategori;
+		data[jumlah].info[0][1] = tempRak;
+		data[jumlah].info[1][0] = tempTahun;
+		data[jumlah].info[1][1] = tempPenerbit;
+
+		jumlah++;
+	}
     file.close();
 
     ofstream fileTulis("buku.txt");
     for (int i = 0; i < jumlah; i++) {
-        fileTulis << data[i].id << "|" << data[i].judul << "|" << data[i].pengarang << "|" << data[i].stock << endl;
+        fileTulis << data[i].id << "|"
+				  << data[i].judul << "|"
+				  << data[i].pengarang << "|"
+				  << data[i].stock << "|"
+				  << data[i].info[0][0] << "|"
+				  << data[i].info[0][1] << "|" 
+				  << data[i].info[1][0] << "|"
+				  << data[i].info[1][1] <<endl;
     }
     fileTulis.close();
 
