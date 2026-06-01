@@ -9,6 +9,12 @@ struct buku
     int stock, id;
 };
 
+void clear(){
+	cin.clear();
+	cin.ignore(1000, '\n');
+    cout << "input tidak valid!"<<endl;
+}
+
 bool login() {
     string username, password;
     cout << "===  LOGIN SISTEM PERPUSTAKAAN ===" << endl;
@@ -46,8 +52,15 @@ void tambahBuku(){
     do {
         sudahAda = false;
         cout << "=== Tambah Buku ===" << endl;
-        cout << "Masukan ID Buku: ";
-        cin >> bbaru.id;
+        while (true){
+            cout << "Masukan ID Buku: ";
+            cin >> bbaru.id;
+            if (cin.fail()){
+                clear();
+            } else{
+                break;
+            }
+        }
 
         ifstream fileCek("buku.txt");
                 
@@ -86,8 +99,15 @@ void tambahBuku(){
 			getline(cin, bbaru.info[1][0]);
 			cout << "Masukan penerbit buku : ";
 			getline(cin, bbaru.info[1][1]);
-            cout << "Jumlah buku            : ";
-            cin >> bbaru.stock;
+            while (true){
+                cout << "Jumlah buku            : ";
+                cin >> bbaru.stock;
+                if (cin.fail() || bbaru.stock < 0){
+                    clear();
+                } else{
+                    break;
+                }
+            }
 
             ofstream filebaru("buku.txt", ios::app);
             filebaru << bbaru.id << "|"
@@ -109,9 +129,15 @@ void hapusBuku(){
 	string tempKategori, tempRak, tempTahun, tempPenerbit;
 	
     cout << "=== Hapus Buku ===" << endl;
-    cout << "Masukkan ID Buku yang ingin dihapus: ";
-    cin >> idHapus;
-
+    while (true){
+        cout << "Masukkan ID Buku yang ingin dihapus: ";
+        cin >> idHapus;
+        if (cin.fail()) {
+            clear();
+        } else {
+            break;
+        }
+    }
     ifstream fileMasuk("buku.txt");
     ofstream fileTemp("temp.txt");
         while (getline(fileMasuk, tempId, '|') &&
@@ -197,9 +223,15 @@ void editBuku() {
 
     int idCari;
     cout << "=== Edit Buku ===" << endl;
-    cout << "masukkan id buku : ";
-    cin >> idCari;
-    
+    while (true){
+        cout << "masukkan id buku : ";
+        cin >> idCari;
+        if (cin.fail()) {
+            clear();
+        } else {
+            break;
+        }
+    }
     int indeks = cariBukuRekursif(data, 0, jumlah - 1, idCari);
 
     if (indeks == -1) {
@@ -208,12 +240,28 @@ void editBuku() {
     }
 
     cout << endl << endl;
-    cout << "Masukkan id baru : "; cin >> data[indeks].id;
+    while (true) {
+        cout << "Masukkan id baru : "; 
+        cin >> data[indeks].id;
+        if (cin.fail()) {
+            clear();
+        } else {
+            break;
+        }
+    }    
     cin.ignore();
     cout << "Nama buku baru   : "; getline(cin, data[indeks].judul);
     cout << "Pengarang baru   : "; getline(cin, data[indeks].pengarang);
-    cout << "Stok baru        : "; cin >> data[indeks].stock;
-	cin.ignore();
+    while (true) {
+        cout << "Stok baru        : "; 
+        cin >> data[indeks].stock;
+        if (cin.fail() || data[indeks].stock < 0) {
+            clear();
+        } else {
+            break;
+        }
+    }
+    cin.ignore();
 	cout << "Kategori baru    : "; getline(cin, data[indeks].info[0][0]);
 	cout << "Rak buku baru    : "; getline(cin, data[indeks].info[0][1]);
 	cout << "Tahun terbit baru: "; getline(cin, data[indeks].info[1][0]);
@@ -371,14 +419,28 @@ void cariBuku(){
     cout << "2. Berdasar Judul Buku" << endl;
     cout << "3. Berdasar Pengarang Buku" << endl;
     cout << "4. Keluar" << endl;
-    cout << "pilihan : ";
-    cin >> pil;
+    while (true) {
+        cout << "pilihan : ";
+        cin >> pil;
+        if (cin.fail() || pil < 1 || pil > 4) {
+            clear();
+        } else {
+            break;
+        }
+    }
     cin.ignore();
 
     if (pil==1){
         int cari;
-        cout << "Masukan ID Buku : ";
-        cin >> cari;
+        while (true) {
+            cout << "Masukan ID Buku : ";
+            cin >> cari;
+            if (cin.fail()) {
+                clear();
+            } else {
+                break;
+            }
+        }
         for (int i = 0; i < jumlah; i++) {
             if (data[i].id == cari) {
                 ditemukan = true;
@@ -407,6 +469,8 @@ void cariBuku(){
             tulisbuku (data, i);
             }
         }
+    } else if (pil==4){
+        return;
     } else {
         cout << "pilihan tidak valid";
     }
@@ -494,8 +558,15 @@ void pinjamBuku() {
     int idCari;
     string namaPeminjam;
     cout << "=== PINJAM BUKU ===" << endl;
-    cout << "Masukkan ID Buku yang ingin dipinjam: "; cin >> idCari;
-
+    while (true) {
+        cout << "Masukkan ID Buku yang ingin dipinjam : "; 
+        cin >> idCari;
+        if (cin.fail()) {
+            clear();
+        } else {
+            break;
+        }
+    }
     int indeks = cariBukuRekursif(data, 0, jumlah - 1, idCari);
 
     if (indeks == -1) {
@@ -539,8 +610,15 @@ void kembalikanBuku() {
     cout << "=== KEMBALIKAN BUKU ===" << endl;
     cin.ignore();
     cout << "Masukkan Nama Anda: "; getline(cin, namaCari);
-    cout << "Masukkan ID Buku yang dikembalikan: "; cin >> idCari;
-
+    while (true) {
+        cout << "Masukkan ID Buku yang dikembalikan: "; 
+        cin >> idCari;
+        if (cin.fail()) {
+            clear();
+        } else {
+            break;
+        }
+    }
     ifstream filePinjam("peminjam.txt");
     ofstream fileTemp("temp_pinjam.txt");
     string tempNama, tempIdBuku, tempJudul;
@@ -628,8 +706,15 @@ void tampilkanMenuadmin() {
         cout << "5. Cari Buku" << endl;
         cout << "6. Daftar Peminjam" << endl;
         cout << "7. Keluar Menu Admin" << endl;
-        cout << "Pilih Menu (1-7): "; cin >> menu;
-        
+        while (true) {
+            cout << "Pilih Menu (1-7): "; 
+            cin >> menu;
+            if (cin.fail()) {
+                clear();
+            } else {
+                break;
+            }
+        }
         switch (menu) {
             case 1:
                 tambahBuku();
@@ -674,9 +759,15 @@ int main() {
     int pilihan;
     
     do {
-        tampilkanMenu();
-        cin >> pilihan;
-        
+       while (true) {
+            tampilkanMenu();
+            cin >> pilihan;
+            if (cin.fail()) {
+                clear();
+            } else {
+                break;
+            }
+        }
         switch (pilihan) {
             case 1:
                 tampilkanBuku();
