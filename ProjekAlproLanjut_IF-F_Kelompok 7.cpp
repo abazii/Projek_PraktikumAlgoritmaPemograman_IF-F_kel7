@@ -43,6 +43,45 @@ int cariBukuRekursif(buku data[], int awal, int akhir, int idCari) {
     return cariBukuRekursif(data, tengah + 1, akhir, idCari);
 }
 
+void bacaFileBuku(buku data[], int &jumlah) {
+
+    jumlah = 0;
+
+    ifstream file("buku.txt");
+
+    if (!file.is_open()) {
+        cout << "File buku tidak ditemukan!" << endl;
+        return;
+    }
+
+    string tempId, tempJudul, tempPengarang, tempStock;
+    string tempKategori, tempRak, tempTahun, tempPenerbit;
+
+    while (getline(file, tempId, '|') &&
+           getline(file, tempJudul, '|') &&
+           getline(file, tempPengarang, '|') &&
+           getline(file, tempStock, '|') &&
+           getline(file, tempKategori, '|') &&
+           getline(file, tempRak, '|') &&
+           getline(file, tempTahun, '|') &&
+           getline(file, tempPenerbit)) {
+
+        data[jumlah].id = stoi(tempId);
+        data[jumlah].judul = tempJudul;
+        data[jumlah].pengarang = tempPengarang;
+        data[jumlah].stock = stoi(tempStock);
+
+        data[jumlah].info[0][0] = tempKategori;
+        data[jumlah].info[0][1] = tempRak;
+        data[jumlah].info[1][0] = tempTahun;
+        data[jumlah].info[1][1] = tempPenerbit;
+
+        jumlah++;
+    }
+
+    file.close();
+}
+
 void tambahBuku(){
     buku bbaru;
     bool sudahAda;
@@ -178,38 +217,7 @@ void hapusBuku(){
 void editBuku() {
     buku data[100];
     int jumlah = 0;
-    ifstream file("buku.txt");
-    
-    if (!file.is_open()) {
-        cout << "File buku tidak ditemukan!" << endl;
-        return;
-    }
-
-    string tempId, tempJudul, tempPengarang, tempStock;
-	string tempKategori, tempRak, tempTahun, tempPenerbit;
-
-	while (getline(file, tempId, '|') &&
-       getline(file, tempJudul, '|') &&
-       getline(file, tempPengarang, '|') &&
-       getline(file, tempStock, '|') &&
-       getline(file, tempKategori, '|') &&
-       getline(file, tempRak, '|') &&
-       getline(file, tempTahun, '|') &&
-       getline(file, tempPenerbit)) {
-
-		data[jumlah].id = stoi(tempId);
-		data[jumlah].judul = tempJudul;
-		data[jumlah].pengarang = tempPengarang;
-		data[jumlah].stock = stoi(tempStock);
-
-		data[jumlah].info[0][0] = tempKategori;
-		data[jumlah].info[0][1] = tempRak;
-		data[jumlah].info[1][0] = tempTahun;
-		data[jumlah].info[1][1] = tempPenerbit;
-
-		jumlah++;
-	}
-    file.close();
+    bacaFileBuku(data, jumlah);
     
     for (int i = 0; i < jumlah - 1; i++) {
         for (int j = 0; j < jumlah - i - 1; j++) {
@@ -285,39 +293,7 @@ void tampilkanBuku(){
 
     buku data[100];
     int jumlah = 0;
-
-    ifstream file("buku.txt");
-
-    if (!file.is_open()) {
-        cout << "File buku tidak ditemukan!" << endl;
-        return;
-    }
-
-    string tempId, tempJudul, tempPengarang, tempStock;
-	string tempKategori, tempRak,tempTahun, tempPenerbit;
-
-	while (getline(file, tempId, '|') &&
-       getline(file, tempJudul, '|') &&
-       getline(file, tempPengarang, '|') &&
-       getline(file, tempStock, '|') &&
-       getline(file, tempKategori, '|') &&
-       getline(file, tempRak, '|') &&
-       getline(file, tempTahun, '|') &&
-       getline(file, tempPenerbit)) {
-
-		data[jumlah].id = stoi(tempId);
-		data[jumlah].judul = tempJudul;
-		data[jumlah].pengarang = tempPengarang;
-		data[jumlah].stock = stoi(tempStock);
-
-		data[jumlah].info[0][0] = tempKategori;
-		data[jumlah].info[0][1] = tempRak;
-		data[jumlah].info[1][0] = tempTahun;
-		data[jumlah].info[1][1] = tempPenerbit;
-		jumlah++;
-	}
-
-    file.close();
+    bacaFileBuku(data, jumlah);
 
     for (int i = 0; i < jumlah - 1; i++) {
 
@@ -376,39 +352,8 @@ void cariBuku(){
 
     buku data[100];
     int jumlah = 0;
-    string tempId, tempJudul, tempPengarang, tempStock;
-	string tempKategori, tempRak, tempTahun, tempPenerbit;
 
-    ifstream file("buku.txt");
-
-    if (!file.is_open()) {
-        cout << "File buku tidak ditemukan!" << endl;
-        return;
-    }
-
-	while (getline(file, tempId, '|') &&
-       getline(file, tempJudul, '|') &&
-       getline(file, tempPengarang, '|') &&
-       getline(file, tempStock, '|') &&
-       getline(file, tempKategori, '|') &&
-       getline(file, tempRak, '|') &&
-       getline(file, tempTahun, '|') &&
-       getline(file, tempPenerbit)) {
-
-		data[jumlah].id = stoi(tempId);
-		data[jumlah].judul = tempJudul;
-		data[jumlah].pengarang = tempPengarang;
-		data[jumlah].stock = stoi(tempStock);
-
-		data[jumlah].info[0][0] = tempKategori;
-		data[jumlah].info[0][1] = tempRak;
-		data[jumlah].info[1][0] = tempTahun;
-		data[jumlah].info[1][1] = tempPenerbit;
-		jumlah++;
-	}
-
-    file.close();
-
+    bacaFileBuku(data, jumlah);
 
     string cari;
     bool ditemukan = false;
@@ -513,37 +458,7 @@ void daftarPeminjam(){
 void pinjamBuku() {
     buku data[100];
     int jumlah = 0;
-    ifstream file("buku.txt");
-    
-    if (!file.is_open()) {
-        cout << "File data buku tidak ditemukan!" << endl;
-        return;
-    }
-
-    string tempId, tempJudul, tempPengarang, tempStock;
-	string tempKategori, tempRak, tempTahun, tempPenerbit;
-
-	while (getline(file, tempId, '|') &&
-       getline(file, tempJudul, '|') &&
-       getline(file, tempPengarang, '|') &&
-       getline(file, tempStock, '|') &&
-       getline(file, tempKategori, '|') &&
-       getline(file, tempRak, '|') &&
-       getline(file, tempTahun, '|') &&
-       getline(file, tempPenerbit)) {
-
-		data[jumlah].id = stoi(tempId);
-		data[jumlah].judul = tempJudul;
-		data[jumlah].pengarang = tempPengarang;
-		data[jumlah].stock = stoi(tempStock);
-
-		data[jumlah].info[0][0] = tempKategori;
-		data[jumlah].info[0][1] = tempRak;
-		data[jumlah].info[1][0] = tempTahun;
-		data[jumlah].info[1][1] = tempPenerbit;
-		jumlah++;
-	}
-    file.close();
+    bacaFileBuku(data, jumlah);
     
     for (int i = 0; i < jumlah - 1; i++) {
         for (int j = 0; j < jumlah - i - 1; j++) {
@@ -648,36 +563,14 @@ void kembalikanBuku() {
 
     buku data[100];
     int jumlah = 0;
-    ifstream file("buku.txt");
-    string tempId, tempJudulBuku, tempPengarang, tempStock;
-    string tempKategori, tempRak, tempTahun, tempPenerbit;
+    bacaFileBuku(data, jumlah);
 
-	while (getline(file, tempId, '|') &&
-       getline(file, tempJudulBuku, '|') &&
-       getline(file, tempPengarang, '|') &&
-       getline(file, tempStock, '|') &&
-       getline(file, tempKategori, '|') &&
-       getline(file, tempRak, '|') &&
-       getline(file, tempTahun, '|') &&
-       getline(file, tempPenerbit)) {
+    for (int i = 0; i < jumlah; i++) {
 
-		data[jumlah].id = stoi(tempId);
-		data[jumlah].judul = tempJudulBuku;
-		data[jumlah].pengarang = tempPengarang;
-		data[jumlah].stock = stoi(tempStock);
-
-		if (data[jumlah].id == idCari) {
-			data[jumlah].stock++;
-		}
-
-		data[jumlah].info[0][0] = tempKategori;
-		data[jumlah].info[0][1] = tempRak;
-		data[jumlah].info[1][0] = tempTahun;
-		data[jumlah].info[1][1] = tempPenerbit;
-
-		jumlah++;
-	}
-    file.close();
+        if (data[i].id == idCari) {
+            data[i].stock++;
+        }
+    }
 
     ofstream fileTulis("buku.txt");
     for (int i = 0; i < jumlah; i++) {
