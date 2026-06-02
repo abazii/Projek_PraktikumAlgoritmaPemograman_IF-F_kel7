@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <cctype>
 using namespace std;
 
 struct buku
@@ -13,6 +14,13 @@ void clear(){
 	cin.clear();
 	cin.ignore(1000, '\n');
     cout << "input tidak valid!"<<endl;
+}
+
+string toLowerCase(string teks) {
+    for (int i = 0; i < teks.length(); i++) {
+        teks[i] = tolower(teks[i]);
+    }
+    return teks;
 }
 
 bool login() {
@@ -362,12 +370,13 @@ void cariBuku(){
     cout << "=== CARI BUKU ===" << endl;
     cout << "1. Berdasar ID Buku" << endl;
     cout << "2. Berdasar Judul Buku" << endl;
-    cout << "3. Berdasar Pengarang Buku" << endl;
-    cout << "4. Keluar" << endl;
+    cout << "3. Berdasar Kategori Buku" << endl;
+    cout << "4. Berdasar Rak Buku" << endl;
+    cout << "5. Keluar" << endl;
     while (true) {
         cout << "pilihan : ";
         cin >> pil;
-        if (cin.fail() || pil < 1 || pil > 4) {
+        if (cin.fail() || pil < 1 || pil > 5) {
             clear();
         } else {
             break;
@@ -398,7 +407,7 @@ void cariBuku(){
         cout << "Masukan Judul Buku : ";
         getline(cin, cari);
         for (int i = 0; i < jumlah; i++) {
-            if (data[i].judul == cari) {
+            if (toLowerCase(data[i].judul) == toLowerCase(cari)) {
                 ditemukan = true;
             tulisbuku (data, i);
             }
@@ -406,15 +415,26 @@ void cariBuku(){
     } else if (pil==3){
         string cari;
         cin.clear();
-        cout << "Masukan Pengarang Buku : ";
+        cout << "Masukan Kategori Buku : ";
         getline(cin, cari);
         for (int i = 0; i < jumlah; i++) {
-            if (data[i].pengarang == cari) {
+            if (toLowerCase(data[i].info[0][0]) == toLowerCase(cari)) {
                 ditemukan = true;
             tulisbuku (data, i);
             }
         }
-    } else if (pil==4){
+    }else if (pil==4){
+        string cari;
+        cin.clear();
+        cout << "Masukan rak buku : ";
+        getline(cin, cari);
+        for (int i = 0; i < jumlah; i++) {
+            if (data[i].info[0][1] == cari) {
+                ditemukan = true;
+            tulisbuku (data, i);
+            }
+        }
+    } else if (pil==5){
         return;
     } else {
         cout << "pilihan tidak valid";
