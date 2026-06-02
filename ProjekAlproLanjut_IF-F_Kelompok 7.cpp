@@ -207,7 +207,7 @@ void hapusBuku(){
 							<< tempKategori << "|"
 							<< tempRak << "|"
 							<< tempTahun << "|"
-							<< tempPenerbit << "|" << endl;
+							<< tempPenerbit << endl;
                 }
             }
 
@@ -429,7 +429,7 @@ void cariBuku(){
         cout << "Masukan rak buku : ";
         getline(cin, cari);
         for (int i = 0; i < jumlah; i++) {
-            if (data[i].info[0][1] == cari) {
+            if (toLowerCase(data[i].info[0][1]) == toLowerCase(cari)) {
                 ditemukan = true;
             tulisbuku (data, i);
             }
