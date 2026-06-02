@@ -1,0 +1,15 @@
+Muhammad Dzaki|101|Dasar Pemrograman C++
+Awa Purwanti|111|Laskar Pelangi
+Azzam Mustofa|104|Jaringan Komputer Modern
+Olivia Maharani|107|Rekayasa Perangkat Lunak
+Nida Nuraini|128|Filosofi Teras
+Kak Ahsan|109|Kecerdasan Buatan
+Asep Surasep|102|Struktur Data dengan Java
+Cecep Gorengan|113|Ronggeng Dukuh Paruk
+Neng Pipit|120|Dilan 1990
+Siti Aminah|122|Sapiens: Riwayat Singkat Manusia
+Budi Santoso|131|Kalkulus Purcell
+Agus Setiawan|127|Dunia Sophie
+Dewi Lestari|116|Perahu Kertas
+Rizky Ramadhan|103|Algoritma dan Pemrograman
+Fitriani|132|Metode Penelitian Kuantitatif

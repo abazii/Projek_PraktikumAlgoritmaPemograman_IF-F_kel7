@@ -1,0 +1,35 @@
+101|Dasar Pemrograman C++|Yudi Ramadhani|5|Komputer|Rak A1|2022|Informatika
+102|Struktur Data dengan Java|Sanjaya|3|Komputer|Rak A1|2023|Andi Offset
+103|Algoritma dan Pemrograman|Rinaldi Munir|4|Komputer|Rak A2|2019|Informatika
+104|Jaringan Komputer Modern|Melwin Syafrizal|6|Teknik|Rak A3|2021|Erlangga
+105|Sistem Operasi|Bambang Hariyanto|2|Komputer|Rak A2|2020|Tekno Press
+106|Basis Data Terdistribusi|Indrajani|4|Komputer|Rak B1|2018|Elex Media
+107|Rekayasa Perangkat Lunak|Rosa A.S.|5|Komputer|Rak B1|2022|Informatika
+108|Desain UI/UX Efektif|Deni Kusuma|3|Komputer|Rak B2|2024|Media Kita
+109|Kecerdasan Buatan|Suyanto|2|Komputer|Rak B3|2021|Andi Offset
+110|Pengantar Teknologi Informasi|M. Suyanto|7|Komputer|Rak A3|2019|Erlangga
+111|Laskar Pelangi|Andrea Hirata|8|Novel|Rak C1|2005|Bentang Pustaka
+112|Bumi Manusia|Pramoedya Ananta Toer|4|Novel|Rak C1|2002|Lentera Dipantara
+113|Ronggeng Dukuh Paruk|Ahmad Tohari|3|Novel|Rak C2|2003|Gramedia
+114|Ayat-Ayat Cinta|Habiburrahman El Shirazy|5|Novel|Rak C2|2004|Republika
+115|Sang Pemimpi|Andrea Hirata|6|Novel|Rak C1|2006|Bentang Pustaka
+116|Perahu Kertas|Dee Lestari|4|Novel|Rak C3|2009|Bentang Pustaka
+117|Pulang|Leila S. Chudori|3|Novel|Rak C3|2012|KPG
+118|Cantik Itu Luka|Eka Kurniawan|2|Novel|Rak C4|2002|Gramedia
+119|Negeri 5 Menara|A. Fuadi|5|Novel|Rak C4|2009|Gramedia
+120|Dilan 1990|Pidi Baiq|10|Novel|Rak C2|2014|Pastel Books
+121|Sejarah Dunia yang Disembunyikan|Jonathan Black|3|Sejarah|Rak D1|2015|Pustaka Utama
+122|Sapiens: Riwayat Singkat Manusia|Yuval Noah Harari|4|Sejarah|Rak D1|2017|KPG
+123|Homo Deus|Yuval Noah Harari|3|Sejarah|Rak D1|2018|KPG
+124|Guns, Germs, and Steel|Jared Diamond|2|Sejarah|Rak D2|2013|KPG
+125|Madilog|Tan Malaka|3|Sejarah|Rak D2|2010|Narasi
+126|Pengantar Filsafat|Louis O. Kattsoff|4|Filsafat|Rak E1|2004|Tiara Wacana
+127|Dunia Sophie|Jostein Gaarder|5|Filsafat|Rak E1|2006|Mizan
+128|Filosofi Teras|Henry Manampiring|12|Filsafat|Rak E2|2019|Kompas
+129|Seni Berpikir Komputasional|Rahmat Hadi|6|Sains|Rak F1|2023|Erlangga
+130|Fisika Dasar untuk Universitas|Halliday & Resnick|3|Sains|Rak F1|2012|Erlangga
+131|Kalkulus Purcell|Edwin J. Purcell|4|Sains|Rak F2|2010|Erlangga
+132|Metode Penelitian Kuantitatif|Sugiyono|8|Pendidikan|Rak G1|2017|Alfabeta
+133|Manajemen Pemasaran|Philip Kotler|3|Ekonomi|Rak H1|2016|Erlangga
+134|Makroekonomi Modern|Sadono Sukirno|5|Ekonomi|Rak H2|2015|Rajawali Press
+135|Pengantar Akuntansi|Warren Reeve|4|Ekonomi|Rak H2|2018|Salemba Empat777|aku suka mendengar orang masak|ridwan kamal|7|action|A1|2017|ELEX MEDIA
