@@ -32,4 +32,5 @@
 132|Metode Penelitian Kuantitatif|Sugiyono|8|Pendidikan|Rak G1|2017|Alfabeta
 133|Manajemen Pemasaran|Philip Kotler|3|Ekonomi|Rak H1|2016|Erlangga
 134|Makroekonomi Modern|Sadono Sukirno|5|Ekonomi|Rak H2|2015|Rajawali Press
-135|Pengantar Akuntansi|Warren Reeve|4|Ekonomi|Rak H2|2018|Salemba Empat777|aku suka mendengar orang masak|ridwan kamal|7|action|A1|2017|ELEX MEDIA
+135|Pengantar Akuntansi|Warren Reeve|4|Ekonomi|Rak H2|2018|Salemba Empat
+777|aku suka mendengar orang masak|ridwan kamal|7|action|A1|2017|ELEX MEDIA
