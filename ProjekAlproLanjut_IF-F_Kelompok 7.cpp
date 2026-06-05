@@ -66,7 +66,7 @@ void asc(buku data[], int jumlah, int parameter){
                     data[j] = data[j + 1];
                     data[j + 1] = temp;
                 }
-            } else if if (parameter ==3){
+            } else if (parameter ==3){
                 if (data[j].stock > data[j + 1].stock){
                     buku temp = data[j];
                     data[j] = data[j + 1];
@@ -98,7 +98,7 @@ void desc(buku data[], int jumlah, int parameter){
                     data[j] = data[j + 1];
                     data[j + 1] = temp;
                 }
-            } else if if (parameter ==3){
+            } else if (parameter ==3){
                 if (data[j].stock < data[j + 1].stock){
                     buku temp = data[j];
                     data[j] = data[j + 1];
