@@ -51,6 +51,70 @@ int cariBukuRekursif(buku data[], int awal, int akhir, int idCari) {
     return cariBukuRekursif(data, tengah + 1, akhir, idCari);
 }
 
+void asc(buku data[], int jumlah, int parameter){
+    for (int i = 0; i < jumlah - 1; i++) {
+        for (int j = 0; j < jumlah - i - 1; j++) {
+            if (parameter == 1){
+                if (data[j].id > data[j + 1].id){
+                    buku temp = data[j];
+                    data[j] = data[j + 1];
+                    data[j + 1] = temp;
+                }
+            } else if (parameter == 2){
+                if (data[j].judul > data[j + 1].judul){
+                    buku temp = data[j];
+                    data[j] = data[j + 1];
+                    data[j + 1] = temp;
+                }
+            } else if if (parameter ==3){
+                if (data[j].stock > data[j + 1].stock){
+                    buku temp = data[j];
+                    data[j] = data[j + 1];
+                    data[j + 1] = temp;
+                }
+            } else if (parameter == 4){
+                if (data[j].info[1][0] > data[j + 1].info[1][0]){
+                    buku temp = data[j];
+                    data[j] = data[j + 1];
+                    data[j + 1] = temp;
+                }
+            }
+        }
+    }
+}
+
+void desc(buku data[], int jumlah, int parameter){
+    for (int i = 0; i < jumlah - 1; i++) {
+        for (int j = 0; j < jumlah - i - 1; j++) {
+            if (parameter == 1){
+                if (data[j].id < data[j + 1].id){
+                    buku temp = data[j];
+                    data[j] = data[j + 1];
+                    data[j + 1] = temp;
+                }
+            } else if (parameter == 2){
+                if (data[j].judul < data[j + 1].judul){
+                    buku temp = data[j];
+                    data[j] = data[j + 1];
+                    data[j + 1] = temp;
+                }
+            } else if if (parameter ==3){
+                if (data[j].stock < data[j + 1].stock){
+                    buku temp = data[j];
+                    data[j] = data[j + 1];
+                    data[j + 1] = temp;
+                }
+            } else if (parameter == 4){
+                if (data[j].info[1][0] < data[j + 1].info[1][0]){
+                    buku temp = data[j];
+                    data[j] = data[j + 1];
+                    data[j + 1] = temp;
+                }
+            }
+        }
+    }
+}
+
 void bacaFileBuku(buku data[], int &jumlah) {
 
     jumlah = 0;
@@ -300,21 +364,21 @@ void editBuku() {
 void tampilkanBuku(){
 
     buku data[100];
-    int jumlah = 0;
+    int sorting, jumlah = 0;
     bacaFileBuku(data, jumlah);
 
-    for (int i = 0; i < jumlah - 1; i++) {
-
-        for (int j = 0; j < jumlah - i - 1; j++) {
-
-            if (data[j].id > data[j + 1].id) {
-
-                buku temp = data[j];
-                data[j] = data[j + 1];
-                data[j + 1] = temp;
-            }
-        }
-    }
+    cout << "PILIH JENIS SORTING\n";
+    cout << "1. Sorting by ID Buku\n";
+    cout << "2. Sorting by Judul\n";
+    cout << "3. Sorting by Stok Buku\n";
+    cout << "4. Sorting by Tahun Terbit\n";
+    cout << "Pilih Jenis Sorting : "; cin >> sorting;
+    int urutan;
+    cout << "1. ascending\n";
+    cout << "2. descending\n";cin>>urutan;
+        if (urutan == 1){
+            asc(data, jumlah, sorting);
+        } else desc(data, jumlah, sorting);    
 	buku *ptr = data;
 
     cout << endl;
