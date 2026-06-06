@@ -18,7 +18,7 @@ void clear(){
 
 string toLowerCase(string teks) {
     for (int i = 0; i < teks.length(); i++) {
-        teks[i] = tolower(teks[i]);
+        teks[i] = tolower((unsigned char)teks[i]);
     }
     return teks;
 }
@@ -61,7 +61,7 @@ void asc(buku data[], int jumlah, int parameter){
                     data[j + 1] = temp;
                 }
             } else if (parameter == 2){
-                if (data[j].judul > data[j + 1].judul){
+                if (toLowerCase(data[j].judul) > toLowerCase(data[j + 1].judul)){
                     buku temp = data[j];
                     data[j] = data[j + 1];
                     data[j + 1] = temp;
@@ -73,7 +73,19 @@ void asc(buku data[], int jumlah, int parameter){
                     data[j + 1] = temp;
                 }
             } else if (parameter == 4){
-                if (data[j].info[1][0] > data[j + 1].info[1][0]){
+                int tahun1 = 0;
+                int tahun2 = 0;
+
+                try {
+                    tahun1 = stoi(data[j].info[1][0]);
+                    tahun2 = stoi(data[j + 1].info[1][0]);
+                }
+                catch (...) {
+                    tahun1 = 0;
+                    tahun2 = 0;
+                }
+
+                if (tahun1 > tahun2){
                     buku temp = data[j];
                     data[j] = data[j + 1];
                     data[j + 1] = temp;
@@ -93,7 +105,7 @@ void desc(buku data[], int jumlah, int parameter){
                     data[j + 1] = temp;
                 }
             } else if (parameter == 2){
-                if (data[j].judul < data[j + 1].judul){
+                if (toLowerCase(data[j].judul) < toLowerCase(data[j + 1].judul)){
                     buku temp = data[j];
                     data[j] = data[j + 1];
                     data[j + 1] = temp;
@@ -105,7 +117,19 @@ void desc(buku data[], int jumlah, int parameter){
                     data[j + 1] = temp;
                 }
             } else if (parameter == 4){
-                if (data[j].info[1][0] < data[j + 1].info[1][0]){
+                int tahun1 = 0;
+                int tahun2 = 0;
+
+                try {
+                    tahun1 = stoi(data[j].info[1][0]);
+                    tahun2 = stoi(data[j + 1].info[1][0]);
+                }
+                catch (...) {
+                    tahun1 = 0;
+                    tahun2 = 0;
+                }
+
+                if (tahun1 < tahun2){
                     buku temp = data[j];
                     data[j] = data[j + 1];
                     data[j + 1] = temp;
@@ -138,8 +162,15 @@ void bacaFileBuku(buku data[], int &jumlah) {
            getline(file, tempTahun, '|') &&
            getline(file, tempPenerbit)) {
 
-        data[jumlah].id = stoi(tempId);
-        data[jumlah].judul = tempJudul;
+        try {
+            data[jumlah].id = stoi(tempId);
+            data[jumlah].stock = stoi(tempStock);
+        }
+        catch (...) {
+            cout << "Data rusak dilewati!" << endl;
+            continue;
+        }
+        
         data[jumlah].pengarang = tempPengarang;
         data[jumlah].stock = stoi(tempStock);
 
@@ -149,6 +180,10 @@ void bacaFileBuku(buku data[], int &jumlah) {
         data[jumlah].info[1][1] = tempPenerbit;
 
         jumlah++;
+        if (jumlah >= 100) {
+            cout << "Kapasitas penuh!";
+            break;
+        }
     }
 
     file.close();
@@ -288,7 +323,7 @@ void hapusBuku(){
 
 void editBuku() {
     buku data[100];
-    int jumlah = 0;
+    int jumlah = 0, idBaru;
     bacaFileBuku(data, jumlah);
     
     for (int i = 0; i < jumlah - 1; i++) {
@@ -312,8 +347,9 @@ void editBuku() {
             break;
         }
     }
+    
     int indeks = cariBukuRekursif(data, 0, jumlah - 1, idCari);
-
+    
     if (indeks == -1) {
         cout << "[Peringatan] ID Buku tidak ditemukan!" << endl;
         return;
@@ -322,13 +358,27 @@ void editBuku() {
     cout << endl << endl;
     while (true) {
         cout << "Masukkan id baru : "; 
-        cin >> data[indeks].id;
+        cin >> idBaru;
         if (cin.fail()) {
             clear();
         } else {
             break;
         }
-    }    
+    }
+
+    bool idAda = false;
+
+    for (int i = 0; i < jumlah; i++) {
+        if (i != indeks && data[i].id == idBaru) {
+            idAda = true;
+        }
+    }
+    if (idAda) {
+        cout << "ID sudah digunakan!" << endl;
+        return;
+    }
+    
+    data[indeks].id = idBaru;
     cin.ignore();
     cout << "Nama buku baru   : "; getline(cin, data[indeks].judul);
     cout << "Pengarang baru   : "; getline(cin, data[indeks].pengarang);
@@ -372,13 +422,35 @@ void tampilkanBuku(){
     cout << "2. Sorting by Judul\n";
     cout << "3. Sorting by Stok Buku\n";
     cout << "4. Sorting by Tahun Terbit\n";
-    cout << "Pilih Jenis Sorting : "; cin >> sorting;
+
+    while (true) {
+        cout << "Pilih Jenis Sorting : ";
+        cin >> sorting;
+
+        if (cin.fail() || sorting < 1 || sorting > 4) {
+            clear();
+        } else {
+            break;
+        }
+    }
+
     int urutan;
-    cout << "1. ascending\n";
-    cout << "2. descending\n";cin>>urutan;
-        if (urutan == 1){
-            asc(data, jumlah, sorting);
-        } else desc(data, jumlah, sorting);    
+    while (true) {
+        cout << "1. ascending\n";
+        cout << "2. descending\n";
+        cin >> urutan;
+
+        if (cin.fail() || (urutan != 1 && urutan != 2)) {
+            clear();
+        } else {
+            break;
+        }
+    }    
+    if (urutan == 1){
+        asc(data, jumlah, sorting);
+    } else {
+        desc(data, jumlah, sorting);
+    }
 	buku *ptr = data;
 
     cout << endl;
@@ -543,7 +615,7 @@ void pinjamBuku() {
     buku data[100];
     int jumlah = 0;
     bacaFileBuku(data, jumlah);
-    
+
     for (int i = 0; i < jumlah - 1; i++) {
         for (int j = 0; j < jumlah - i - 1; j++) {
             if (data[j].id > data[j + 1].id) {
@@ -556,16 +628,20 @@ void pinjamBuku() {
 
     int idCari;
     string namaPeminjam;
+
     cout << "=== PINJAM BUKU ===" << endl;
+
     while (true) {
-        cout << "Masukkan ID Buku yang ingin dipinjam : "; 
+        cout << "Masukkan ID Buku yang ingin dipinjam : ";
         cin >> idCari;
+
         if (cin.fail()) {
             clear();
         } else {
             break;
         }
     }
+
     int indeks = cariBukuRekursif(data, 0, jumlah - 1, idCari);
 
     if (indeks == -1) {
@@ -574,43 +650,94 @@ void pinjamBuku() {
     }
 
     if (data[indeks].stock <= 0) {
-        cout << "[Peringatan] Stok buku habis, tidak bisa dipinjam!" << endl;
+        cout << "[Peringatan] Stok buku habis!" << endl;
         return;
     }
 
-    cin.ignore();
-    cout << "Masukkan Nama Anda: "; getline(cin, namaPeminjam);
+    cin.ignore(1000, '\n');
+    cout << "Masukkan Nama Anda: ";
+    getline(cin, namaPeminjam);
 
+    ifstream cekPeminjam("peminjam.txt");
+    if (!cekPeminjam.is_open()){
+        ofstream buatFile("peminjam.txt");
+        buatFile.close();
+
+        cekPeminjam.open("peminjam.txt");
+    }
+    string tempNama, tempId, tempJudul;
+
+    while (getline(cekPeminjam, tempNama, '|') &&
+           getline(cekPeminjam, tempId, '|') &&
+           getline(cekPeminjam, tempJudul)) {
+
+        if (toLowerCase(tempNama) == toLowerCase(namaPeminjam)) {
+
+            cout << "[Peringatan] "
+                 << namaPeminjam
+                 << " masih memiliki buku yang dipinjam!" << endl;
+
+            cekPeminjam.close();
+            return;
+        }
+    }
+
+    cekPeminjam.close();
     data[indeks].stock--;
 
     ofstream fileTulis("buku.txt");
+
     for (int i = 0; i < jumlah; i++) {
         fileTulis << data[i].id << "|"
-				  << data[i].judul << "|"
-				  << data[i].pengarang << "|"
-				  << data[i].stock << "|"
-				  << data[i].info[0][0] << "|"
-				  << data[i].info[0][1] << "|"
-				  << data[i].info[1][0] << "|"
-				  << data[i].info[1][1] << endl;
+                  << data[i].judul << "|"
+                  << data[i].pengarang << "|"
+                  << data[i].stock << "|"
+                  << data[i].info[0][0] << "|"
+                  << data[i].info[0][1] << "|"
+                  << data[i].info[1][0] << "|"
+                  << data[i].info[1][1] << endl;
     }
+
     fileTulis.close();
 
     ofstream filePinjam("peminjam.txt", ios::app);
-    filePinjam << namaPeminjam << "|" << data[indeks].id << "|" << data[indeks].judul << endl;
+
+    filePinjam << namaPeminjam << "|"
+               << data[indeks].id << "|"
+               << data[indeks].judul << endl;
+
     filePinjam.close();
 
-    cout << "[Sukses] Buku berhasil dipinjam oleh " << namaPeminjam << "!" << endl;
+    ofstream histori("histori.txt", ios::app);
+    
+    if (!histori.is_open()) {
+        cout << "File histori gagal dibuka!" << endl;
+        return;
+    }
+
+    histori << namaPeminjam << "|"
+            << data[indeks].id << "|"
+            << data[indeks].judul << "|"
+            << "Dipinjam" << endl;
+
+    histori.close();
+
+    cout << "[Sukses] Buku berhasil dipinjam!" << endl;
 }
 
 void kembalikanBuku() {
     string namaCari;
     int idCari;
+
     cout << "=== KEMBALIKAN BUKU ===" << endl;
-    cin.ignore();
-    cout << "Masukkan Nama Anda: "; getline(cin, namaCari);
+
+    cin.ignore(1000, '\n');
+
+    cout << "Masukkan Nama Anda: ";
+    getline(cin, namaCari);
+
     while (true) {
-        cout << "Masukkan ID Buku yang dikembalikan: "; 
+        cout << "Masukkan ID Buku yang dikembalikan: ";
         cin >> idCari;
         if (cin.fail()) {
             clear();
@@ -618,35 +745,51 @@ void kembalikanBuku() {
             break;
         }
     }
+
     ifstream filePinjam("peminjam.txt");
     ofstream fileTemp("temp_pinjam.txt");
-    string tempNama, tempIdBuku, tempJudul;
-    bool ditemukan = false;
 
-    if (filePinjam.is_open()) {
-        while (getline(filePinjam, tempNama, '|') &&
-               getline(filePinjam, tempIdBuku, '|') &&
-               getline(filePinjam, tempJudul)) {
-            
-            if (tempNama == namaCari && stoi(tempIdBuku) == idCari && !ditemukan) {
-                ditemukan = true;
-            } else {
-                fileTemp << tempNama << "|" << tempIdBuku << "|" << tempJudul << endl;
-            }
-        }
-        filePinjam.close();
-        fileTemp.close();
-        remove("peminjam.txt");
-        rename("temp_pinjam.txt", "peminjam.txt");
+    if (!filePinjam.is_open()) {
+        cout << "File peminjam gagal dibuka!" << endl;
+        return;
     }
 
+    string tempNama, judulBuku, tempIdBuku, tempJudul;
+    bool ditemukan = false;
+
+    while (getline(filePinjam, tempNama, '|') &&
+           getline(filePinjam, tempIdBuku, '|') &&
+           getline(filePinjam, tempJudul)) {
+        if (toLowerCase(tempNama) == toLowerCase(namaCari)
+            && stoi(tempIdBuku) == idCari
+            && !ditemukan) {
+            ditemukan = true;
+            judulBuku = tempJudul;
+        } else {
+            fileTemp << tempNama << "|"
+                     << tempIdBuku << "|"
+                     << tempJudul << endl;
+        }
+    }
+
+    filePinjam.close();
+    fileTemp.close();
+
+    if (remove("peminjam.txt") != 0) {
+        cout << "Gagal menghapus file lama!" << endl;
+    }
+
+    if (rename("temp_pinjam.txt", "peminjam.txt") != 0) {
+        cout << "Gagal rename file!" << endl;
+    }
     if (!ditemukan) {
-        cout << "[Gagal] Data peminjaman tidak ditemukan! Periksa kembali Nama atau ID Buku." << endl;
+        cout << "[Gagal] Data peminjaman tidak ditemukan!" << endl;
         return;
     }
 
     buku data[100];
     int jumlah = 0;
+
     bacaFileBuku(data, jumlah);
 
     for (int i = 0; i < jumlah; i++) {
@@ -657,19 +800,68 @@ void kembalikanBuku() {
     }
 
     ofstream fileTulis("buku.txt");
+
     for (int i = 0; i < jumlah; i++) {
+
         fileTulis << data[i].id << "|"
-				  << data[i].judul << "|"
-				  << data[i].pengarang << "|"
-				  << data[i].stock << "|"
-				  << data[i].info[0][0] << "|"
-				  << data[i].info[0][1] << "|" 
-				  << data[i].info[1][0] << "|"
-				  << data[i].info[1][1] <<endl;
+                  << data[i].judul << "|"
+                  << data[i].pengarang << "|"
+                  << data[i].stock << "|"
+                  << data[i].info[0][0] << "|"
+                  << data[i].info[0][1] << "|"
+                  << data[i].info[1][0] << "|"
+                  << data[i].info[1][1] << endl;
     }
+
     fileTulis.close();
+    ofstream histori("histori.txt", ios::app);
+
+    histori << namaCari << "|"
+            << idCari << "|"
+            << judulBuku << "|"
+            << "Dikembalikan" << endl;
+
+    histori.close();
 
     cout << "[Sukses] Buku berhasil dikembalikan!" << endl;
+}
+
+void historiPeminjaman() {
+    ifstream file("histori.txt");
+
+    if (!file.is_open()) {
+        cout << "Belum ada histori peminjaman!" << endl;
+        return;
+    }
+
+    string nama, idBuku, judul, status;
+
+    cout << endl;
+    cout << "==================================================" << endl;
+    cout << "               HISTORI PEMINJAMAN                " << endl;
+    cout << "==================================================" << endl;
+
+    bool adaData = false;
+
+    while (getline(file, nama, '|') &&
+           getline(file, idBuku, '|') &&
+           getline(file, judul, '|') &&
+           getline(file, status)) {
+
+        adaData = true;
+
+        cout << "Nama Peminjam : " << nama << endl;
+        cout << "ID Buku       : " << idBuku << endl;
+        cout << "Judul Buku    : " << judul << endl;
+        cout << "Status        : " << status << endl;
+        cout << "--------------------------------------------------" << endl;
+    }
+
+    if (!adaData) {
+        cout << "Belum ada histori peminjaman!" << endl;
+    }
+
+    file.close();
 }
 
 void tampilkanMenuadmin() {
@@ -682,9 +874,10 @@ void tampilkanMenuadmin() {
         cout << "4. Tampilkan Daftar Buku" << endl;
         cout << "5. Cari Buku" << endl;
         cout << "6. Daftar Peminjam" << endl;
-        cout << "7. Keluar Menu Admin" << endl;
+        cout << "7. Histori Peminjaman" << endl;
+        cout << "8. Keluar Menu Admin" << endl;
         while (true) {
-            cout << "Pilih Menu (1-7): "; 
+            cout << "Pilih Menu (1-8): "; 
             cin >> menu;
             if (cin.fail()) {
                 clear();
@@ -712,12 +905,15 @@ void tampilkanMenuadmin() {
                 daftarPeminjam();
                 break;
             case 7:
+                historiPeminjaman();
+                break;
+            case 8:
                 cout << "Anda telah keluar dari admin!" << endl;
                 break;
             default:
                 cout << "Pilihan tidak valid! Silakan coba lagi." << endl;
         }
-    } while(menu!=7); 
+    } while(menu != 8); 
 }
 
 void tampilkanMenu() {
