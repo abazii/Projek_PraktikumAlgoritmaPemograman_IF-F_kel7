@@ -173,6 +173,7 @@ void bacaFileBuku(buku data[], int &jumlah) {
         
         data[jumlah].pengarang = tempPengarang;
         data[jumlah].stock = stoi(tempStock);
+        data[jumlah].judul = tempJudul;
 
         data[jumlah].info[0][0] = tempKategori;
         data[jumlah].info[0][1] = tempRak;
@@ -542,11 +543,13 @@ void cariBuku(){
         cin.clear();
         cout << "Masukan Judul Buku : ";
         getline(cin, cari);
+        string kataKunci = toLowerCase(cari); 
         for (int i = 0; i < jumlah; i++) {
-            if (toLowerCase(data[i].judul) == toLowerCase(cari)) {
-                ditemukan = true;
-            tulisbuku (data, i);
-            }
+            string judulBuku = toLowerCase(data[i].judul); 
+        if (judulBuku.find(kataKunci) != string::npos) {
+            tulisbuku(data, i); 
+            ditemukan = true;
+        }
         }
     } else if (pil==3){
         string cari;
