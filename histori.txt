@@ -1,0 +1,48 @@
+Andi|101|Dasar Pemrograman C++|Dipinjam
+Budi|102|Struktur Data dengan Java|Dipinjam
+Citra|103|Algoritma dan Pemrograman|Dipinjam
+Dewi|104|Jaringan Komputer Modern|Dipinjam
+Eko|105|Sistem Operasi|Dipinjam
+Fajar|106|Basis Data Terdistribusi|Dipinjam
+Gilang|107|Rekayasa Perangkat Lunak|Dipinjam
+Hana|108|Desain UI/UX Efektif|Dipinjam
+Indra|109|Kecerdasan Buatan|Dipinjam
+Joko|110|Pengantar Teknologi Informasi|Dipinjam
+Karin|111|Laskar Pelangi|Dipinjam
+Lutfi|112|Bumi Manusia|Dipinjam
+Mira|113|Ronggeng Dukuh Paruk|Dipinjam
+Nanda|114|Ayat-Ayat Cinta|Dipinjam
+Oki|115|Sang Pemimpi|Dipinjam
+Putri|116|Perahu Kertas|Dipinjam
+Qori|117|Pulang|Dipinjam
+Rama|118|Cantik Itu Luka|Dipinjam
+Sinta|119|Negeri 5 Menara|Dipinjam
+Tono|120|Dilan 1990|Dipinjam
+Umar|121|Sejarah Dunia yang Disembunyikan|Dipinjam
+Vina|122|Sapiens: Riwayat Singkat Manusia|Dipinjam
+Wahyu|123|Homo Deus|Dipinjam
+Yoga|124|Guns, Germs, and Steel|Dipinjam
+Zahra|125|Madilog|Dipinjam
+Andi|101|Dasar Pemrograman C++|Dikembalikan
+Budi|102|Struktur Data dengan Java|Dikembalikan
+Citra|103|Algoritma dan Pemrograman|Dikembalikan
+Karin|111|Laskar Pelangi|Dikembalikan
+Putri|116|Perahu Kertas|Dikembalikan
+Vina|122|Sapiens: Riwayat Singkat Manusia|Dikembalikan
+Yoga|124|Guns, Germs, and Steel|Dikembalikan
+Asep|126|Pengantar Filsafat|Dipinjam
+Bagas|127|Dunia Sophie|Dipinjam
+Cahya|128|Filosofi Teras|Dipinjam
+Dimas|129|Seni Berpikir Komputasional|Dipinjam
+Elsa|130|Fisika Dasar untuk Universitas|Dipinjam
+Farhan|131|Kalkulus Purcell|Dipinjam
+Gita|132|Metode Penelitian Kuantitatif|Dipinjam
+Hendra|133|Manajemen Pemasaran|Dipinjam
+Intan|134|Makroekonomi Modern|Dipinjam
+Jihan|135|Pengantar Akuntansi|Dipinjam
+Kevin|777|aku suka mendengar orang masak|Dipinjam
+Kevin|777|aku suka mendengar orang masak|Dikembalikan
+Rijal|111|Laskar Pelangi|Dipinjam
+Ropiah|122|Sapiens: Riwayat Singkat Manusia|Dipinjam
+Djaki|111|Laskar Pelangi|Dipinjam
+Djaki|111|Laskar Pelangi|Dikembalikan
